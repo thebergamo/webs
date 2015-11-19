@@ -1,0 +1,35 @@
+{
+  "name": "webs",
+  "version": "1.0.0",
+  "description": "Walk on web and fetch your data",
+  "main": "index.js",
+  "scripts": {
+    "test": "scripts/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebergamo/webs.git"
+  },
+  "keywords": [
+    "web",
+    "crawler",
+    "spider",
+    "data",
+    "data",
+    "mining"
+  ],
+  "author": "Marcos Bérgamo <marcos@thedon.com.br>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "3.0.5",
+    "nock": "3.1.1",
+    "parsick": "git+https://github.com/thebergamo/parsick.git",
+    "request-promise": "1.0.2"
+  },
+  "devDependencies": {
+    "chai": "3.4.1",
+    "coveralls": "2.11.4",
+    "istanbul": "0.4.0",
+    "mocha": "2.3.3"
+  }
+}
