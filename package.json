@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "3.0.5",
+    "lodash": "3.10.1",
     "nock": "3.1.1",
     "parsick": "git+https://github.com/thebergamo/parsick.git",
     "request-promise": "1.0.2"
