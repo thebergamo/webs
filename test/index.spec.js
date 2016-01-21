@@ -1,120 +1,120 @@
 'use strict';
 
-let nock = require('nock');
-let expect = require('chai').expect;
+var nock = require('nock');
+var expect = require('chai').expect;
 
-let Webs = require('../index');
+var Webs = require('../index');
 
-describe('Webs module', () => {
-  describe('#instance', () => {
-    it('should be an object', () => {
+describe('Webs module', function () {
+  describe('#instance', function () {
+    it('should be an object', function () {
       expect(Webs).to.be.an('object');
     });
 
-    it('should initialize formatsAvailable', () => {
+    it('should initialize formatsAvailable', function () {
       expect(Webs).to.have.property('formatsAvailable');
       expect(Webs.formatsAvailable).not.be.emtpy;
     });
 
-    it('should initialize defaultOptions', () => {
+    it('should initialize defaultOptions', function () {
       expect(Webs).to.have.property('defaultOpts');
       expect(Webs.defaultOpts).to.be.an('object');
       expect(Webs.defaultOpts).to.have.property('resolveWithFullResponse', true);
     });
   });
 
-  describe('#request()', () => {
-    before(() => {
+  describe('#request()', function () {
+    before(function () {
       return configureRequests();
     });
 
-    describe('when URI return not found', () => {
-      let error;
+    describe('when URI return not found', function () {
+      var error;
 
-      before(() => {
+      before(function () {
         return Webs.request({
           uri: 'http://webs.io/noFile',
           keys: ['title'] 
         })
-        .catch((err) => {
+        .catch(function (err) {
           error = err;
         });
       });
 
-      it('should throw a Error', () => {
-        let fn = () => { throw error; };
+      it('should throw a Error', function () {
+        var fn = function () { throw error; };
         
         expect(fn).to.throw(Error);
         expect(fn).to.throw(/StatusCodeError: 404/); 
       }); 
     });
 
-    describe('when a strange file type is requested', () => {
-      let error;
+    describe('when a strange file type is requested', function () {
+      var error;
 
-      before(() => {
+      before(function () {
         return Webs.request({
           uri: 'http://webs.io/coolDson',
           keys: ['title'] 
         })
-        .catch((err) => {
+        .catch(function (err) {
           error = err;
         });
       });
 
-      it('should throw a Error', () => {
-        let fn = () => { throw error; };
+      it('should throw a Error', function () {
+        var fn = function () { throw error; };
         
         expect(fn).to.throw(TypeError);
         expect(fn).to.throw(/Current Content-Type isn't parseable/); 
       }); 
     });
 
-    describe('when a json is sended', () => {
-      describe('when a broken json is required', () => {
-        let error;
+    describe('when a json is sended', function () {
+      describe('when a broken json is required', function () {
+        var error;
 
-        before(() => {
+        before(function () {
           return Webs.request({
             uri: 'http://webs.io/poorJson',
             keys: ['title'] 
           })
-          .catch((err) => {
+          .catch(function (err) {
             error = err;
           });
         });
 
-        it('should throw a SyntaxError', () => {
-          let fn = () => { throw error; };
+        it('should throw a SyntaxError', function () {
+          var fn = function () { throw error; };
           
           expect(fn).to.throw(SyntaxError);
           expect(fn).to.throw(/There are errors in your JSON: Unexpected token/); 
         }); 
       });
 
-      describe('when a healthy json is required', () => {
-        let response;
+      describe('when a healthy json is required', function () {
+        var response;
 
-        before(() => {
+        before(function () {
           return Webs.request({
             uri: 'http://webs.io/healthyJson',
             keys: ['title'] 
           })
-          .then((res) => {
+          .then(function (res) {
             response = res;
           });
         });
 
-        it('should response get an array', () => {
+        it('should response get an array', function () {
           expect(response).to.be.an('array');
         });
 
-        it('should response have least 4 itens', () => {
+        it('should response have least 4 itens', function () {
           expect(response.length).to.have.least(4);
         });
 
-        it('should response have the correct keys', () => {
-          response.forEach((item) => {
+        it('should response have the correct keys', function () {
+          response.forEach(function (item) {
             expect(item).to.be.an('object');
             expect(item).to.have.property('title');
           });
@@ -123,51 +123,51 @@ describe('Webs module', () => {
       });
     });
 
-    describe('when a xml is sended', () => {
-      describe('when a broken xml is required', () => {
-        let error;
+    describe('when a xml is sended', function () {
+      describe('when a broken xml is required', function () {
+        var error;
 
-        before(() => {
+        before(function () {
           return Webs.request({
             uri: 'http://webs.io/poorXML',
             keys: ['title'] 
           })
-          .catch((err) => {
+          .catch(function (err) {
             error = err;
           });
         });
 
-        it('should throw a Error', () => {
-          let fn = () => { throw error; };
+        it('should throw a Error', function () {
+          var fn = function () { throw error; };
           
           expect(fn).to.throw(Error);
           expect(fn).to.throw(/There are errors in your xml file: mismatched tag/); 
         }); 
       });
 
-      describe('when a healthy xml is required', () => {
-        let response;
+      describe('when a healthy xml is required', function () {
+        var response;
 
-        before(() => {
+        before(function () {
           return Webs.request({
             uri: 'http://webs.io/healthyXML',
             keys: ['title'] 
           })
-          .then((res) => {
+          .then(function (res) {
             response = res;
           });
         });
 
-        it('should response get an array', () => {
+        it('should response get an array', function () {
           expect(response).to.be.an('array');
         });
 
-        it('should response have least 26 itens', () => {
+        it('should response have least 26 itens', function () {
           expect(response.length).to.have.least(26);
         });
 
-        it('should response have the correct keys', () => {
-          response.forEach((item) => {
+        it('should response have the correct keys', function () {
+          response.forEach(function (item) {
             expect(item).to.be.an('object');
             expect(item).to.have.property('TITLE');
           });

@@ -1,12 +1,12 @@
 'use strict';
 
-const _ = require('lodash');
-const request = require('request-promise');
+var _ = require('lodash');
+var request = require('request-promise');
 
-const Promise = require('bluebird');
-const Parsick = require('parsick');
+var Promise = require('bluebird');
+var Parsick = require('parsick');
 
-const parsick = new Parsick();
+var parsick = new Parsick();
 
 function Webs () {
   this.formatsAvailable = ['json', 'xml'];
@@ -21,11 +21,11 @@ Webs.prototype.request = function (opt) {
   return Promise
   .bind(this)
   .return(_.extend(this.defaultOpts, opt))
-  .then((opt) => {
+  .then(function (opt) {
     return request(opt);    
   })
-  .then((res) => {
-    let type = getType.call(this, res.headers['content-type']);
+  .then(function (res) {
+    var type = getType.call(this, res.headers['content-type']);
     
     if (!type) {
       throw new TypeError('Current Content-Type isn\'t parseable');
@@ -33,19 +33,19 @@ Webs.prototype.request = function (opt) {
 
     return [type, res.body];
   })
-  .spread((type, body) => {
+  .spread(function (type, body) {
     return parsick.parse(type, body, opt.keys);
   });
 };
 
 function getType (str) {
- let type;
+ var type;
 
  this.formatsAvailable.forEach(matchType);
  return type;
 
  function matchType (item) {
-   const regex = new RegExp('(?:\/)('+item+')');
+   var regex = new RegExp('(?:\/)('+item+')');
    if(str.match(regex)) {
      type = item;
    }
